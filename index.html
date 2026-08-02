@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+<title>Cool Games and Stuff — Free Browser Games</title>
+<meta name="description" content="Cool Games and Stuff — a free arcade of browser games. Play instantly, fullscreen, on any device.">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+
+<!-- Simple emoji favicon -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🕹️</text></svg>">
+</head>
+<body>
+
+<!-- ============ BACKDROP ============ -->
+<div class="grid-floor" aria-hidden="true"></div>
+<div class="scan-noise" aria-hidden="true"></div>
+
+<!-- ============ HEADER ============ -->
+<header class="site-header">
+  <div class="header-inner">
+    <a href="#top" class="logo">
+      <span class="logo-mark">🕹️</span>
+      <span class="logo-text">COOL GAMES<span class="logo-sub">&amp; STUFF</span></span>
+    </a>
+
+    <div class="search-wrap">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" width="18" height="18"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <input id="searchInput" type="text" placeholder="Search games…" autocomplete="off">
+    </div>
+
+    <button id="menuToggle" class="menu-toggle" aria-label="Toggle categories">
+      <svg viewBox="0 0 24 24" width="22" height="22"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+
+  <nav id="categoryNav" class="category-nav" aria-label="Game categories">
+    <!-- chips injected by script.js -->
+  </nav>
+</header>
+
+<!-- ============ HERO ============ -->
+<section id="top" class="hero">
+  <p class="hero-eyebrow">// INSERT COIN</p>
+  <h1 class="hero-title">
+    <span class="glitch" data-text="COOL GAMES">COOL GAMES</span>
+    <span class="hero-title-sub">and stuff</span>
+  </h1>
+  <p class="hero-tagline">No downloads. No sign-ups. Just tap a cabinet and play — on your phone, tablet, or desktop.</p>
+  <div class="hero-stats">
+    <div class="stat"><span class="stat-num" id="statCount">0</span><span class="stat-label">games</span></div>
+    <div class="stat-divider"></div>
+    <div class="stat"><span class="stat-num">∞</span><span class="stat-label">replays</span></div>
+    <div class="stat-divider"></div>
+    <div class="stat"><span class="stat-num">$0</span><span class="stat-label">cost</span></div>
+  </div>
+</section>
+
+<!-- ============ GAME GRID ============ -->
+<main class="game-section">
+  <div class="section-heading">
+    <h2 id="sectionTitle">All Games</h2>
+    <span id="resultCount" class="result-count"></span>
+  </div>
+  <div id="gameGrid" class="game-grid"></div>
+  <p id="emptyState" class="empty-state" hidden>No cabinets match that search. Try another term. 👾</p>
+</main>
+
+<footer class="site-footer">
+  <p>Built with ❤️ and way too much neon. Games are embedded from their original sources / creators — all credit belongs to them.</p>
+</footer>
+
+<!-- ============ PLAYER MODAL ============ -->
+<div id="playerModal" class="player-modal" hidden tabindex="-1">
+  <div class="player-toolbar">
+    <div class="player-title">
+      <span id="playerIcon" class="player-icon">🎮</span>
+      <span id="playerGameTitle">Game Title</span>
+    </div>
+    <div class="player-actions">
+      <button id="restartBtn" class="tool-btn" title="Restart game">
+        <svg viewBox="0 0 24 24" width="18" height="18"><path d="M20 11A8 8 0 1 0 18.5 16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M20 4v7h-7" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <a id="openExternalBtn" class="tool-btn" title="Open in new tab" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" width="18" height="18"><path d="M14 3h7v7" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 14L21 3" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M19 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <button id="fullscreenBtn" class="tool-btn" title="Fullscreen">
+        <svg viewBox="0 0 24 24" width="18" height="18"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M21 16v3a2 2 0 0 1-2 2h-3M8 21H5a2 2 0 0 1-2-2v-3" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button id="closePlayerBtn" class="tool-btn tool-btn-close" title="Close">
+        <svg viewBox="0 0 24 24" width="18" height="18"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div id="playerStage" class="player-stage">
+    <div id="playerLoading" class="player-loading">
+      <div class="loader-spinner"></div>
+      <p>Booting up cabinet…</p>
+    </div>
+    <div id="playerBlockedNotice" class="player-blocked-notice" hidden>
+      <p class="blocked-emoji">🚧</p>
+      <h3>This game won't load in a frame here</h3>
+      <p>The source site blocks embedding. No worries — open it directly instead.</p>
+      <a id="blockedOpenBtn" class="btn-primary" target="_blank" rel="noopener">Play on original site ↗</a>
+    </div>
+    <iframe id="gameFrame" title="Game player" allow="fullscreen; gamepad; autoplay; encrypted-media" allowfullscreen></iframe>
+    <div id="builtinGameHost" class="builtin-game-host" hidden></div>
+  </div>
+</div>
+
+<script src="games-data.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
